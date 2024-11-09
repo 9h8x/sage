@@ -24,7 +24,7 @@ export default defineConfig({
   adapter: cloudflare(),
   vite: {
     ssr: {
-      external: ["node:async_hooks"],
+      external: ["node:buffer", "node:worker_threads", "node:async_hooks"],
     },
   },
 });

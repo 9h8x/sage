@@ -1,5 +1,4 @@
 export const prerender = false;
-import { Buffer } from 'node:buffer';
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({
