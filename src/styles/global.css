@@ -1,0 +1,103 @@
+/* Base theme */
+:root {
+  color-scheme: dark;
+}
+
+/* Prevent FOUC and ensure consistent initial render */
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply min-h-screen text-white/90;
+  background: #252627;
+  background-image: radial-gradient(
+      circle at 20% 20%,
+      rgba(26, 81, 136, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(45, 61, 158, 0.15) 0%,
+      transparent 50%
+    ),
+    linear-gradient(135deg, rgba(26, 81, 136, 0.1), rgba(45, 61, 158, 0.1));
+  background-attachment: fixed;
+}
+
+/* Global styles */
+.card-backdrop {
+  @apply bg-[#252627]/30 backdrop-blur-xl border border-white/10;
+  background-image: linear-gradient(
+    145deg,
+    rgba(240, 244, 239, 0.03),
+    rgba(240, 244, 239, 0.01)
+  );
+}
+
+.btn {
+  @apply transition-all duration-200;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-[#1a5188] to-[#2d3d9e] hover:from-[#1a5188]/90 hover:to-[#2d3d9e]/90 border-none text-white shadow-lg;
+}
+
+.btn-ghost {
+  @apply text-white/90 hover:bg-white/10;
+}
+
+/* Tab styles */
+.tabs-bordered {
+  @apply border-white/10;
+}
+
+.tab {
+  @apply text-white/70 hover:text-white/90 transition-colors duration-200;
+}
+
+.tab-active {
+  @apply bg-white/10 text-white/90 !border-[#1a5188];
+}
+
+/* Input styles */
+input,
+select,
+textarea {
+  @apply bg-[#252627]/50 border-white/20 text-white/90 placeholder-white/50;
+  @apply focus:border-[#1a5188] focus:ring-1 focus:ring-[#1a5188];
+}
+
+/* Custom scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+/* Page transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}

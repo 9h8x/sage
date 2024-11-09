@@ -1,0 +1,42 @@
+---
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Panel SAGE - Sistema de Administración de la Gestión Educativa"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <div class="fixed inset-0 pointer-events-none">
+      <div
+        class="absolute top-0 left-0 w-1/2 h-1/2 bg-[#1a5188]/5 rounded-full blur-3xl"
+      >
+      </div>
+      <div
+        class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#2d3d9e]/5 rounded-full blur-3xl"
+      >
+      </div>
+    </div>
+    <slot name="navbar" />
+    <div class="relative flex-1">
+      <slot />
+    </div>
+    <Footer />
+  </body>
+</html>

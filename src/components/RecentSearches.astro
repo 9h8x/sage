@@ -1,0 +1,170 @@
+---
+interface Props {
+  id: string;
+  type: 'name' | 'id';
+}
+
+const { id, type } = Astro.props;
+---
+
+<div 
+  class="recent-searches hidden absolute z-10 w-full mt-1 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg shadow-lg" 
+  id={`recent-${id}`}
+>
+  <div class="p-2 space-y-1">
+    <div class="flex justify-between items-center px-2 py-1">
+      <span class="text-sm text-white/70">Búsquedas Recientes</span>
+      <button
+        class="text-xs text-white/50 hover:text-white/70 transition-colors duration-200"
+        id={`clear-${id}`}
+      >
+        Limpiar Todo
+      </button>
+    </div>
+    <div class="recent-items space-y-1"></div>
+  </div>
+</div>
+
+<script define:vars={{ id, type }}>
+  const recentContainer = document.getElementById(`recent-${id}`);
+  const input = document.getElementById(id);
+  const clearButton = document.getElementById(`clear-${id}`);
+  const form = input?.closest('form');
+  
+  const MAX_RECENT = 5;
+  const STORAGE_KEY = `recent-searches-${type}`;
+  let timeout;
+
+  function toPascalCase(str) {
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+  
+  function getRecentSearches() {
+    const searches = localStorage.getItem(STORAGE_KEY);
+    return searches ? JSON.parse(searches) : [];
+  }
+  
+  function saveRecentSearch(search) {
+    let searches = getRecentSearches();
+    let newSearch;
+
+    if (typeof search === 'object') {
+      const formattedName = search.name ? toPascalCase(search.name) : undefined;
+      newSearch = {
+        id: search.id,
+        name: formattedName,
+        searchKey: (formattedName || search.id).toLowerCase()
+      };
+    } else {
+      const formattedSearch = toPascalCase(search);
+      newSearch = {
+        id: formattedSearch,
+        searchKey: formattedSearch.toLowerCase()
+      };
+    }
+
+    searches = [
+      newSearch,
+      ...searches.filter(s => s.searchKey !== newSearch.searchKey)
+    ].slice(0, MAX_RECENT);
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(searches));
+    updateRecentList();
+  }
+  
+  function updateRecentList() {
+    if (!recentContainer) return;
+    
+    const searches = getRecentSearches();
+    const itemsContainer = recentContainer.querySelector('.recent-items');
+    
+    if (searches.length === 0) {
+      itemsContainer.innerHTML = `
+        <div class="px-3 py-2 text-sm text-white/50">
+          No hay búsquedas recientes
+        </div>
+      `;
+      return;
+    }
+    
+    itemsContainer.innerHTML = searches.map(search => `
+      <button
+        class="w-full text-left px-3 py-2 text-sm text-white/90 hover:bg-white/10 rounded transition-colors duration-200"
+        data-search="${search.id}"
+      >
+        <div class="flex justify-between items-center">
+          <span>${search.id}</span>
+          ${search.name ? `<span class="text-white/70">${search.name}</span>` : ''}
+        </div>
+      </button>
+    `).join('');
+    
+    itemsContainer.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (input) {
+          input.value = btn.dataset.search;
+          recentContainer.classList.add('hidden');
+          if (form) {
+            form.requestSubmit();
+          } else {
+            input.dispatchEvent(new Event('input'));
+          }
+        }
+      });
+    });
+  }
+  
+  if (input) {
+    input.addEventListener('focus', () => {
+      updateRecentList();
+      if (getRecentSearches().length > 0) {
+        recentContainer.classList.remove('hidden');
+      }
+    });
+    
+    input.addEventListener('blur', () => {
+      setTimeout(() => {
+        recentContainer.classList.add('hidden');
+      }, 200);
+    });
+
+    input.addEventListener('saveSearch', (e) => {
+      const customEvent = e;
+      if (customEvent.detail) {
+        saveRecentSearch(customEvent.detail);
+      }
+    });
+    
+    if (type === 'name') {
+      input.addEventListener('input', (e) => {
+        clearTimeout(timeout);
+        const value = e.target.value;
+        
+        if (value.length >= 3) {
+          timeout = setTimeout(() => {
+            saveRecentSearch({ id: value });
+          }, 1000);
+        }
+      });
+    } else {
+      input.addEventListener('change', (e) => {
+        const value = e.target.value;
+        if (value) {
+          saveRecentSearch({ id: value });
+        }
+      });
+    }
+  }
+  
+  if (clearButton) {
+    clearButton.addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      updateRecentList();
+      recentContainer.classList.add('hidden');
+    });
+  }
+</script>

@@ -1,0 +1,29 @@
+---
+interface Tab {
+  name: string;
+  href: string;
+  active: boolean;
+}
+
+interface Props {
+  tabs: Tab[];
+}
+
+const { tabs } = Astro.props;
+---
+
+<div role="tablist" class="tabs tabs-bordered backdrop-blur-xl bg-white/5 rounded-lg p-2 border border-white/10">
+  {tabs.map((tab) => (
+    <a
+      role="tab"
+      href={tab.href}
+      class:list={[
+        "tab",
+        tab.active ? "tab-active bg-white/10 text-white/90 rounded-md" : "text-white/70 hover:text-white/90",
+        "transition-colors duration-200"
+      ]}
+    >
+      {tab.name}
+    </a>
+  ))}
+</div>
