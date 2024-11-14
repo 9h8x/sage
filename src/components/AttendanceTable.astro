@@ -2,20 +2,16 @@
 import { Icon } from "astro-icon/components";
 ---
 
-<div class="space-y-6 animate-fade-in">
+<div class="space-y-6">
   <div id="attendance-info" class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- Stats cards will be inserted here -->
   </div>
 
-  <div
-    class="glass-card p-6 rounded-xl backdrop-blur-xl border border-white/10 animate-slide-up"
-  >
+  <div class="surface-2 p-6 rounded-lg">
     <div
       class="flex flex-col sm:flex-row sm:justify-between items-center gap-3 mb-6"
     >
-      <h3
-        class="text-lg font-semibold text-white/90 text-center flex items-center gap-2"
-      >
+      <h3 class="text-lg font-semibold text-white/90 flex items-center gap-2">
         <Icon name="mdi:calendar-clock" class="w-5 h-5" />
         Inasistencias 2024
       </h3>
@@ -30,20 +26,21 @@ import { Icon } from "astro-icon/components";
         </span>
       </div>
     </div>
+
     <div class="overflow-x-auto">
-      <table class="table w-full" id="attendance-table">
+      <table class="w-full" id="attendance-table">
         <thead>
-          <tr>
-            <th class="text-white/90 border-b border-white/10 py-3">Fecha</th>
-            <th class="text-white/90 border-b border-white/10 py-3">Tipo</th>
-            <th class="text-white/90 border-b border-white/10 py-3">Cant.</th>
-            <th class="text-white/90 border-b border-white/10 py-3">Just.</th>
-            <th
-              class="text-white/90 border-b border-white/10 py-3 hidden sm:table-cell"
+          <tr class="border-b border-white/10">
+            <th class="text-left text-white/90 py-3 px-4">Fecha</th>
+            <th class="text-left text-white/90 py-3 px-4">Tipo</th>
+            <th class="text-left text-white/90 py-3 px-4">Cant.</th>
+            <th class="text-left text-white/90 py-3 px-4 hidden sm:table-cell"
+              >Estado</th
+            >
+            <th class="text-left text-white/90 py-3 px-4 hidden sm:table-cell"
               >Escuela</th
             >
-            <th
-              class="text-white/90 border-b border-white/10 py-3 hidden sm:table-cell"
+            <th class="text-left text-white/90 py-3 px-4 hidden sm:table-cell"
               >Justificación</th
             >
           </tr>
@@ -115,29 +112,28 @@ import { Icon } from "astro-icon/components";
           (a, b) => new Date(b.Fecha).getTime() - new Date(a.Fecha).getTime()
         )
         .map(
-          (record, index) => `
-            <tr class="border-b border-white/5 hover:bg-white/5 transition-all duration-300 sm:bg-transparent ${
-              record.EstaJustificada === "S"
-                ? "bg-green-500/5 hover:bg-green-500/10"
-                : "bg-red-500/5 hover:bg-red-500/10"
-            } animate-fade-slide-up" style="animation-delay: ${index * 50}ms">
-              <td class="text-white/90 py-3">${record.Fecha}</td>
-              <td class="text-white/90 py-3">${record.Tipo.trim()}</td>
-              <td class="text-white/90 py-3">${record.Cantidad}</td>
-              <td class="py-3">
-                <span class="badge ${record.EstaJustificada === "S" ? "badge-success" : "badge-error"} gap-1 flex items-center">
-                  <span class="hidden sm:inline">${record.EstaJustificada === "S" ? "Sí" : "No"}</span>
-                  <span class="sm:hidden">
-                    ${
-                      record.EstaJustificada === "S"
-                        ? '<span class="i-mdi-check-circle w-4 h-4"></span>'
-                        : '<span class="i-mdi-alert-circle w-4 h-4"></span>'
-                    }
-                  </span>
-                </span>
+          (record) => `
+            <tr class="${
+              record.EstaJustificada === "S" ? "bg-green-500/5" : "bg-red-500/5"
+            } sm:bg-transparent border-t border-white/10">
+              <td class="text-white/90 py-3 px-4">${record.Fecha}</td>
+              <td class="text-white/90 py-3 px-4">${record.Tipo.trim()}</td>
+              <td class="text-white/90 py-3 px-4">${record.Cantidad}</td>
+              <td class="py-3 px-4 hidden sm:table-cell">
+                <div class="inline-flex items-center gap-1 text-sm ${
+                  record.EstaJustificada === "S"
+                    ? "text-green-300"
+                    : "text-red-300"
+                }">
+                  ${record.EstaJustificada === "S" ? "Justificada" : "Sin Justificar"}
+                </div>
               </td>
-              <td class="text-white/90 py-3 hidden sm:table-cell">${record.Escuela}</td>
-              <td class="text-white/90 py-3 hidden sm:table-cell">${record.Justificación || "-"}</td>
+              <td class="text-white/90 py-3 px-4 hidden sm:table-cell">${
+                record.Escuela
+              }</td>
+              <td class="text-white/90 py-3 px-4 hidden sm:table-cell">${
+                record.Justificación || "-"
+              }</td>
             </tr>
           `
         )
@@ -149,23 +145,25 @@ import { Icon } from "astro-icon/components";
       const justified = data.filter((r) => r.EstaJustificada === "S").length;
 
       this.infoDiv.innerHTML = `
-          <div class="stat-card text-center animate-fade-slide-up">
-            <div class="stat-icon">
-              <span class="i-mdi-calendar-alert w-6 h-6"></span>
-            </div>
-            <div class="stat-title">Total</div>
-            <div class="stat-value">${currentYearTotal.toFixed(2)}</div>
-            <div class="stat-desc">Inasistencias</div>
+        <div class="surface-3 p-6 rounded-lg text-center">
+          <div class="flex justify-center mb-2">
+            <Icon name="mdi:calendar-alert" class="w-6 h-6 text-white/70" />
           </div>
-          <div class="stat-card text-center animate-fade-slide-up" style="animation-delay: 100ms">
-            <div class="stat-icon">
-              <span class="i-mdi-check-decagram w-6 h-6"></span>
-            </div>
-            <div class="stat-title">Justificadas</div>
-            <div class="stat-value">${justified}</div>
-            <div class="stat-desc">de ${data.length} faltas</div>
+          <div class="text-sm text-white/70 mb-1">Total</div>
+          <div class="text-2xl font-bold text-white mb-1">${currentYearTotal.toFixed(
+            2
+          )}</div>
+          <div class="text-sm text-white/50">Inasistencias</div>
+        </div>
+        <div class="surface-3 p-6 rounded-lg text-center">
+          <div class="flex justify-center mb-2">
+            <Icon name="mdi:check-decagram" class="w-6 h-6 text-white/70" />
           </div>
-        `;
+          <div class="text-sm text-white/70 mb-1">Justificadas</div>
+          <div class="text-2xl font-bold text-white mb-1">${justified}</div>
+          <div class="text-sm text-white/50">de ${data.length} faltas</div>
+        </div>
+      `;
     }
 
     private calculateTotal(data: any[]): number {
@@ -182,15 +180,15 @@ import { Icon } from "astro-icon/components";
 
     private showError(message: string): void {
       this.tableBody.innerHTML = `
-          <tr>
-            <td colspan="6" class="text-center text-red-400 py-8">
-              <div class="flex items-center justify-center gap-2">
-                <span class="i-mdi-alert w-5 h-5"></span>
-                ${message}
-              </div>
-            </td>
-          </tr>
-        `;
+        <tr>
+          <td colspan="6" class="text-center text-red-400 py-8">
+            <div class="flex items-center justify-center gap-2">
+              <Icon name="mdi:alert" class="w-5 h-5" />
+              ${message}
+            </div>
+          </td>
+        </tr>
+      `;
       this.infoDiv.innerHTML = "";
     }
   }
@@ -201,160 +199,15 @@ import { Icon } from "astro-icon/components";
 </script>
 
 <style>
-  .glass-card {
-    background: linear-gradient(
-      145deg,
-      rgba(37, 38, 39, 0.7),
-      rgba(37, 38, 39, 0.4)
-    );
-    position: relative;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .glass-card:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
-  }
-
-  .glass-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      145deg,
-      rgba(240, 244, 239, 0.1),
-      rgba(240, 244, 239, 0.05)
-    );
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
-  .stat-card {
-    @apply p-6 rounded-xl backdrop-blur-xl relative overflow-hidden;
-    background: linear-gradient(
-      145deg,
-      rgba(26, 81, 136, 0.1),
-      rgba(45, 61, 158, 0.1)
-    );
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .stat-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
-  }
-
-  .stat-icon {
-    @apply mb-3 text-white/70;
-  }
-
-  .stat-title {
-    @apply text-white/70 text-sm mb-2;
-  }
-
-  .stat-value {
-    @apply text-white text-3xl font-bold mb-1;
-  }
-
-  .stat-desc {
-    @apply text-white/50 text-sm;
-  }
-
   .badge {
-    @apply px-3 py-1 rounded-md text-sm font-medium transition-all duration-200;
+    @apply px-3 py-1 rounded-full text-sm font-medium;
   }
 
   .badge-success {
-    background: linear-gradient(
-      145deg,
-      rgba(34, 197, 94, 0.2),
-      rgba(34, 197, 94, 0.1)
-    );
-    @apply text-green-300 border border-green-500/20;
+    @apply bg-green-500/20 text-green-300;
   }
 
   .badge-error {
-    background: linear-gradient(
-      145deg,
-      rgba(239, 68, 68, 0.2),
-      rgba(239, 68, 68, 0.1)
-    );
-    @apply text-red-300 border border-red-500/20;
-  }
-
-  table {
-    border-collapse: separate;
-    border-spacing: 0;
-  }
-
-  th {
-    @apply font-semibold text-sm;
-  }
-
-  td,
-  th {
-    @apply px-4;
-  }
-
-  tr:last-child td {
-    border-bottom: none;
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes slide-up {
-    from {
-      transform: translateY(10px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes fade-slide-up {
-    from {
-      transform: translateY(10px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.3s ease-out forwards;
-  }
-
-  .animate-slide-up {
-    animation: slide-up 0.3s ease-out forwards;
-  }
-
-  .animate-fade-slide-up {
-    opacity: 0;
-    animation: fade-slide-up 0.3s ease-out forwards;
+    @apply bg-red-500/20 text-red-300;
   }
 </style>

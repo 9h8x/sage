@@ -10,7 +10,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -22,21 +22,11 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen flex flex-col">
-    <div class="fixed inset-0 pointer-events-none">
-      <div
-        class="absolute top-0 left-0 w-1/2 h-1/2 bg-[#1a5188]/5 rounded-full blur-3xl"
-      >
-      </div>
-      <div
-        class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#2d3d9e]/5 rounded-full blur-3xl"
-      >
-      </div>
-    </div>
+  <body class="surface-1">
     <slot name="navbar" />
-    <div class="relative flex-1">
+    <div class="min-h-screen flex flex-col">
       <slot />
+      <Footer />
     </div>
-    <Footer />
   </body>
 </html>

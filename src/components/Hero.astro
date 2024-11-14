@@ -3,236 +3,50 @@ import { SignInButton, SignedIn, SignedOut } from "@clerk/astro/components";
 import { Icon } from "astro-icon/components";
 ---
 
-<div class="hero min-h-screen relative overflow-hidden">
-  <!-- Decorative elements -->
-  <div class="absolute inset-0 overflow-hidden">
-    <div
-      class="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-[#1a5188]/20 to-[#2d3d9e]/20 blur-3xl transform rotate-12 animate-pulse-slow"
-    >
-    </div>
-    <div
-      class="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-[#1a5188]/20 to-[#2d3d9e]/20 blur-3xl transform -rotate-12 animate-pulse-slow"
-    >
-    </div>
-  </div>
+<div class="min-h-[calc(100vh-4rem)] flex items-center justify-center content-padding py-16">
+  <div class="max-w-2xl w-full text-center">
+    <div class="space-y-8">
+      <div class="flex justify-center">
+        <Icon name="mdi:database-search" class="w-20 h-20 text-white/80 animate-float" />
+      </div>
+      
+      <div class="space-y-4">
+        <h1 class="text-5xl font-bold tracking-tight animate-slide-up">
+          Bienvenido al Panel SAGE
+        </h1>
+        <p class="text-xl text-white/80 leading-relaxed animate-slide-up">
+          Herramienta para obtener información directamente de SAGE de cualquier persona, en cualquier momento.
+        </p>
+      </div>
 
-  <!-- Content -->
-  <div class="hero-content text-center relative z-10">
-    <div class="max-w-2xl mx-auto px-4">
-      <div
-        class="glass-card p-8 md:p-12 rounded-2xl backdrop-blur-xl border border-white/10 shadow-2xl animate-fade-in"
-      >
-        <div class="decorative-corner top-left"></div>
-        <div class="decorative-corner top-right"></div>
-        <div class="space-y-6">
-          <div class="flex justify-center mb-4">
-            <Icon
-              name="mdi:database-search"
-              class="w-16 h-16 text-white/80 animate-float"
-            />
-          </div>
-          <h1
-            class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight animate-slide-up"
-            style="animation-delay: 100ms"
-          >
-            Bienvenido al Panel SAGE
-          </h1>
-          <p
-            class="text-lg md:text-xl text-white/80 mb-8 leading-relaxed animate-slide-up"
-            style="animation-delay: 200ms"
-          >
-            Herramienta para obtener información directamente de SAGE de
-            cualquier persona, en cualquier momento.
-          </p>
-          <div
-            class="flex justify-center gap-4 animate-slide-up"
-            style="animation-delay: 300ms"
-          >
-            <SignedIn>
-              <a
-                href="/dashboard"
-                class="btn btn-primary group px-8 py-3 rounded-xl text-lg font-medium"
-              >
-                <span class="flex items-center gap-2">
-                  Ir a Panel
-                  <Icon
-                    name="mdi:arrow-right"
-                    class="w-5 h-5 transform transition-transform group-hover:translate-x-1"
-                  />
-                </span>
-              </a>
-            </SignedIn>
-            <SignedOut>
-              <SignInButton mode="modal">
-                <button
-                  class="btn btn-primary group px-8 py-3 rounded-xl text-lg font-medium"
-                >
-                  <span class="flex items-center gap-2">
-                    Iniciar Sesión
-                    <Icon
-                      name="mdi:login"
-                      class="w-5 h-5 transform transition-transform group-hover:translate-x-1"
-                    />
-                  </span>
-                </button>
-              </SignInButton>
-            </SignedOut>
-          </div>
-        </div>
-        <div class="decorative-corner bottom-left"></div>
-        <div class="decorative-corner bottom-right"></div>
+      <div class="flex justify-center gap-4 animate-slide-up">
+        <SignedIn>
+          <a href="/dashboard" class="btn btn-primary px-8 py-3 rounded-full text-lg font-medium">
+            <span class="flex items-center gap-2">
+              Ir a Panel
+              <Icon name="mdi:arrow-right" class="w-5 h-5" />
+            </span>
+          </a>
+        </SignedIn>
+        <SignedOut>
+          <SignInButton mode="modal">
+            <button class="btn btn-primary px-8 py-3 rounded-full text-lg font-medium">
+              <span class="flex items-center gap-2">
+                Iniciar Sesión
+                <Icon name="mdi:login" class="w-5 h-5" />
+              </span>
+            </button>
+          </SignInButton>
+        </SignedOut>
       </div>
     </div>
   </div>
 </div>
 
 <style>
-  .glass-card {
-    background: linear-gradient(
-      145deg,
-      rgba(37, 38, 39, 0.7),
-      rgba(37, 38, 39, 0.4)
-    );
-    position: relative;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .glass-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.3);
-  }
-
-  .glass-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      145deg,
-      rgba(240, 244, 239, 0.1),
-      rgba(240, 244, 239, 0.05)
-    );
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
-  .decorative-corner {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .glass-card:hover .decorative-corner {
-    opacity: 0.8;
-  }
-
-  .decorative-corner::before,
-  .decorative-corner::after {
-    content: "";
-    position: absolute;
-    background: linear-gradient(to var(--direction, right), #1a5188, #2d3d9e);
-    opacity: 0.5;
-    transition: all 0.3s ease;
-  }
-
-  .glass-card:hover .decorative-corner::before,
-  .glass-card:hover .decorative-corner::after {
-    opacity: 0.7;
-  }
-
-  .decorative-corner::before {
-    width: 2px;
-    height: 100%;
-  }
-
-  .decorative-corner::after {
-    height: 2px;
-    width: 100%;
-  }
-
-  .top-left {
-    top: 1rem;
-    left: 1rem;
-    --direction: right;
-  }
-
-  .top-right {
-    top: 1rem;
-    right: 1rem;
-    transform: rotate(90deg);
-    --direction: bottom;
-  }
-
-  .bottom-left {
-    bottom: 1rem;
-    left: 1rem;
-    transform: rotate(-90deg);
-    --direction: top;
-  }
-
-  .bottom-right {
-    bottom: 1rem;
-    right: 1rem;
-    transform: rotate(180deg);
-    --direction: left;
-  }
-
-  .btn-primary {
-    transition: all 0.3s ease;
-    background-size: 200% auto;
-    background-image: linear-gradient(
-      to right,
-      #1a5188 0%,
-      #2d3d9e 50%,
-      #1a5188 100%
-    );
-  }
-
-  .btn-primary:hover {
-    background-position: right center;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 20px -4px rgba(26, 81, 136, 0.5);
-  }
-
-  @keyframes pulse-slow {
-    0%,
-    100% {
-      opacity: 0.3;
-    }
-    50% {
-      opacity: 0.4;
-    }
-  }
-
   @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
 
   @keyframes slide-up {
@@ -246,16 +60,8 @@ import { Icon } from "astro-icon/components";
     }
   }
 
-  .animate-pulse-slow {
-    animation: pulse-slow 4s ease-in-out infinite;
-  }
-
   .animate-float {
     animation: float 3s ease-in-out infinite;
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.5s ease-out forwards;
   }
 
   .animate-slide-up {

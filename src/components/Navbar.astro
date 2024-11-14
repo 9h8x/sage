@@ -1,43 +1,103 @@
 ---
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/astro/components";
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/astro/components";
 ---
-<nav class="fixed top-4 left-4 right-4 z-50">
-  <div class="navbar card-backdrop rounded-box shadow-lg">
-    <div class="navbar-start">
-      <div class="dropdown">
-        <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+
+<nav class="fixed top-0 left-0 right-0 z-50 surface-2 elevation-2">
+  <div class="max-w-7xl mx-auto h-16 px-4 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="lg:hidden">
+        <button
+          class="btn btn-ghost p-2"
+          id="mobile-menu-button"
+          aria-label="Menu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h8m-8 6h16"></path>
           </svg>
-        </div>
-        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow card-backdrop rounded-box w-52">
-          <li><a href="/">Inicio</a></li>
-          <SignedIn>
-            <li><a href="/dashboard">Panel</a></li>
-          </SignedIn>
-        </ul>
+        </button>
       </div>
-      <a class="btn btn-ghost text-xl">Panel SAGE</a>
+      <a href="/" class="text-xl font-medium">Panel SAGE</a>
     </div>
-    <div class="navbar-center hidden lg:flex">
-      <ul class="menu menu-horizontal px-1">
-        <li><a href="/">Inicio</a></li>
-        <SignedIn>
-          <li><a href="/dashboard">Panel</a></li>
-        </SignedIn>
-      </ul>
-    </div>
-    <div class="navbar-end gap-2">
+
+    <div
+      class="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2"
+    >
+      <a href="/" class="text-white/90 hover:text-white transition-colors"
+        >Inicio</a
+      >
       <SignedIn>
-        <div class="mx-5 mt-2">
-          <UserButton afterSignOutUrl="/" />
-        </div>
+        <a
+          href="/dashboard"
+          class="text-white/90 hover:text-white transition-colors">Panel</a
+        >
+      </SignedIn>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <SignedIn>
+        <UserButton afterSignOutUrl="/" />
       </SignedIn>
       <SignedOut>
-        <SignInButton mode="modal" asChild>
-          <button class="btn btn-primary">Iniciar Sesión</button>
+        <SignInButton mode="modal">
+          <button class="btn btn-primary px-4 py-2 rounded-full"
+            >Iniciar Sesión</button
+          >
         </SignInButton>
       </SignedOut>
     </div>
   </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="lg:hidden surface-3 hidden">
+    <div class="px-4 py-2 space-y-1">
+      <a
+        href="/"
+        class="block py-2 text-white/90 hover:text-white transition-colors"
+        >Inicio</a
+      >
+      <SignedIn>
+        <a
+          href="/dashboard"
+          class="block py-2 text-white/90 hover:text-white transition-colors"
+          >Panel</a
+        >
+      </SignedIn>
+    </div>
+  </div>
 </nav>
+
+<script>
+  const mobileMenuButton = document.getElementById("mobile-menu-button");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (
+        !mobileMenuButton.contains(e.target as Node) &&
+        !mobileMenu.contains(e.target as Node)
+      ) {
+        mobileMenu.classList.add("hidden");
+      }
+    });
+  }
+</script>

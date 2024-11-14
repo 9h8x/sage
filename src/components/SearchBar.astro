@@ -1,22 +1,30 @@
 ---
-import RecentSearches from './RecentSearches.astro';
+import RecentSearches from "./RecentSearches.astro";
 ---
-<div class="w-full max-w-2xl">
+
+<div class="w-full max-w-2xl mx-auto">
   <div class="relative">
     <input
       type="text"
       id="search-input"
-      class="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg backdrop-blur-sm text-white/90 placeholder-white/50 focus:outline-none focus:border-white/40 transition-colors duration-200"
+      class="w-full h-12 px-4 rounded-full text-white/90 placeholder-white/50 transition-colors duration-200"
       placeholder="Buscar por nombre..."
       autocomplete="off"
     />
-    <div class="absolute bottom-0 left-0 w-full h-0.5 overflow-hidden opacity-0 transition-opacity duration-200" id="loading-container">
-      <div class="h-full bg-blue-500 loading-bar"></div>
+    <div
+      class="absolute bottom-0 left-0 w-full h-0.5 overflow-hidden opacity-0 transition-opacity duration-200"
+      id="loading-container"
+    >
+      <div class="h-full bg-[#0061a4] loading-bar"></div>
     </div>
     <RecentSearches id="search-input" type="name" />
   </div>
-  
-  <div class="mt-4 max-h-[300px] overflow-y-auto rounded-lg custom-scrollbar" id="results-container"></div>
+
+  <div
+    class="mt-4 max-h-[300px] overflow-y-auto rounded-lg custom-scrollbar"
+    id="results-container"
+  >
+  </div>
 </div>
 
 <style>
@@ -32,23 +40,5 @@ import RecentSearches from './RecentSearches.astro';
     100% {
       transform: translateX(400%);
     }
-  }
-
-  .custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
   }
 </style>

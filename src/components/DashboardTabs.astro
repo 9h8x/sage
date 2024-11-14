@@ -12,18 +12,24 @@ interface Props {
 const { tabs } = Astro.props;
 ---
 
-<div role="tablist" class="tabs tabs-bordered backdrop-blur-xl bg-white/5 rounded-lg p-2 border border-white/10">
-  {tabs.map((tab) => (
-    <a
-      role="tab"
-      href={tab.href}
-      class:list={[
-        "tab",
-        tab.active ? "tab-active bg-white/10 text-white/90 rounded-md" : "text-white/70 hover:text-white/90",
-        "transition-colors duration-200"
-      ]}
-    >
-      {tab.name}
-    </a>
-  ))}
+<div class="surface-2 elevation-1">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-center overflow-x-auto">
+      {
+        tabs.map((tab) => (
+          <a
+            href={tab.href}
+            class:list={[
+              "px-4 sm:px-6 py-4 text-sm font-medium border-b-2 transition-colors whitespace-nowrap",
+              tab.active
+                ? "border-[#0061a4] text-white"
+                : "border-transparent text-white/70 hover:text-white hover:border-white/30",
+            ]}
+          >
+            {tab.name}
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </div>

@@ -3,39 +3,39 @@
 ---
 
 <div class="space-y-6" id="student-info">
-  <div class="glass-card p-6 rounded-xl">
-    <h3 class="text-xl font-semibold text-white/90 mb-4 text-center">
+  <div class="surface-2 p-6 rounded-lg">
+    <h3 class="text-xl font-semibold text-white/90 mb-6 text-center">
       Información Personal
     </h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
-        <h4 class="text-white/70 text-sm">Nombre Completo</h4>
+        <h4 class="text-white/70 text-sm mb-1">Nombre Completo</h4>
         <p class="text-white/90" data-field="fullName"></p>
       </div>
       <div>
-        <h4 class="text-white/70 text-sm">DNI</h4>
+        <h4 class="text-white/70 text-sm mb-1">DNI</h4>
         <p class="text-white/90" data-field="dni"></p>
       </div>
       <div>
-        <h4 class="text-white/70 text-sm">CUIL</h4>
+        <h4 class="text-white/70 text-sm mb-1">CUIL</h4>
         <p class="text-white/90" data-field="cuil"></p>
       </div>
       <div>
-        <h4 class="text-white/70 text-sm">Fecha de Nacimiento</h4>
+        <h4 class="text-white/70 text-sm mb-1">Fecha de Nacimiento</h4>
         <p class="text-white/90" data-field="birthDate"></p>
       </div>
       <div>
-        <h4 class="text-white/70 text-sm">Dirección</h4>
+        <h4 class="text-white/70 text-sm mb-1">Dirección</h4>
         <p class="text-white/90" data-field="address"></p>
       </div>
       <div>
-        <h4 class="text-white/70 text-sm">Teléfono</h4>
+        <h4 class="text-white/70 text-sm mb-1">Teléfono</h4>
         <p class="text-white/90" data-field="phone"></p>
       </div>
     </div>
   </div>
 
-  <div id="tutors-container" class="glass-card p-6 rounded-xl">
+  <div id="tutors-container" class="surface-2 p-6 rounded-lg">
     <h3
       class="text-xl font-semibold text-white/90 mb-6 text-center"
       id="tutors-title"
@@ -43,7 +43,7 @@
       Información de Tutores
     </h3>
     <div id="tutors-grid" class="grid grid-cols-1 gap-4">
-      <div class="glass-card-inner p-6 rounded-xl">
+      <div class="surface-3 p-6 rounded-lg">
         <div class="text-center text-white/70 py-4">
           Cargando información de tutores...
         </div>
@@ -142,30 +142,30 @@
       this.tutorsGrid.innerHTML = tutors
         .map(
           (tutor) => `
-        <div class="glass-card-inner p-6 rounded-xl relative overflow-hidden">
-          <div class="absolute top-0 right-0 px-3 py-1 rounded-bl-lg bg-gradient-to-r from-[#1a5188]/20 to-[#2d3d9e]/20 border-l border-b border-white/10">
+        <div class="surface-3 p-6 rounded-lg relative">
+          <div class="absolute top-0 right-0 px-3 py-1 rounded-bl-lg surface-4">
             <span class="text-sm text-white/70">${tutor.Parentezco}</span>
           </div>
           <div class="space-y-4 mt-6">
             <div>
-              <h4 class="text-white/70 text-sm">Nombre Completo</h4>
+              <h4 class="text-white/70 text-sm mb-1">Nombre Completo</h4>
               <p class="text-white/90">${tutor.Nombres} ${tutor.Apellidos}</p>
             </div>
             <div>
-              <h4 class="text-white/70 text-sm">DNI</h4>
+              <h4 class="text-white/70 text-sm mb-1">DNI</h4>
               <p class="text-white/90">${tutor.Documento}</p>
             </div>
             <div>
-              <h4 class="text-white/70 text-sm">Domicilio</h4>
+              <h4 class="text-white/70 text-sm mb-1">Domicilio</h4>
               <p class="text-white/90">${tutor.Domicilio}</p>
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <h4 class="text-white/70 text-sm">Teléfono</h4>
+                <h4 class="text-white/70 text-sm mb-1">Teléfono</h4>
                 <p class="text-white/90">${tutor.Telefono || "No disponible"}</p>
               </div>
               <div>
-                <h4 class="text-white/70 text-sm">Celular</h4>
+                <h4 class="text-white/70 text-sm mb-1">Celular</h4>
                 <p class="text-white/90">${tutor.Celular || "No disponible"}</p>
               </div>
             </div>
@@ -184,7 +184,7 @@
 
     private displayTutorError(message: string): void {
       this.tutorsGrid.innerHTML = `
-        <div class="glass-card-inner p-6 rounded-xl">
+        <div class="surface-3 p-6 rounded-lg">
           <div class="text-red-400 p-4 text-center">${message}</div>
         </div>
       `;
@@ -195,68 +195,3 @@
     new StudentInfoManager();
   });
 </script>
-
-<style>
-  .glass-card {
-    background: linear-gradient(
-      145deg,
-      rgba(37, 38, 39, 0.7),
-      rgba(37, 38, 39, 0.4)
-    );
-    position: relative;
-  }
-
-  .glass-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      145deg,
-      rgba(240, 244, 239, 0.1),
-      rgba(240, 244, 239, 0.05)
-    );
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
-  .glass-card-inner {
-    background: linear-gradient(
-      145deg,
-      rgba(26, 81, 136, 0.1),
-      rgba(45, 61, 158, 0.1)
-    );
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-  }
-
-  .glass-card-inner::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      145deg,
-      rgba(240, 244, 239, 0.05),
-      rgba(240, 244, 239, 0.02)
-    );
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-</style>
